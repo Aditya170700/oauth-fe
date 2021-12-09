@@ -1,10 +1,22 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view />
 </template>
+
+<script>
+import jwt_decode from "jwt-decode";
+
+export default {
+  beforeCreate() {
+    if (localStorage.getItem("token_jwt") != null) {
+      this.$store.commit("setToken", localStorage.getItem("token_jwt"));
+      this.$store.commit(
+        "setProfile",
+        jwt_decode(localStorage.getItem("token_jwt"))
+      );
+    }
+  },
+};
+</script>
 
 <style>
 #app {
